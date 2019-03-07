@@ -2,8 +2,8 @@ See the <a href="https://hello-world-f1c87.firebaseapp.com">Live Demo!</a>
 
 ## Usage:
 
-data - JSON - required: The data that you want to render in your table
-rowHeight - Number - required - The height of the row
+data - JSON - required: The data that you want to render in your table<br/>
+rowHeight - Number - required - The height of the row<br/>
 header - JSON - required - The configuration for defining display order, sortable columns, data types, and data output transformations.
 
 ```vue
@@ -36,10 +36,10 @@ export default {
 
 ### Header Config Rules
 
-Each object in the header array will map to a value in the table.
+Each object in the header array will map to a value in the table.<br/>
 
-Key, and Label are required, but type and sortable are optional.
+Key, and Label are required, but type and sortable are optional.<br/>
 
-Type is used for sorting on date values, and rendering images.
+Type is used for sorting on date values, and rendering images.<br/>
 
 `sortable: true` will enable sorting by clicking on the column header.
