@@ -1,8 +1,12 @@
 {
   "name": "vue-infinite-scroll-table",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A Virtual Scrolling Table built with VueJS",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/syntacticsolutions/vue-virtual-table-scroller.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,5 +17,8 @@
     "table"
   ],
   "author": "Miguel Coder",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "firebase-tools": "^6.4.0"
+  }
 }
