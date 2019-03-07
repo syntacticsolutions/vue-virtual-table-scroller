@@ -1,0 +1,17 @@
+{
+  "name": "vue-infinite-scroll-table",
+  "version": "1.0.0",
+  "description": "A Virtual Scrolling Table built with VueJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "virtual",
+    "scroll",
+    "scroller",
+    "table"
+  ],
+  "author": "Miguel Coder",
+  "license": "MIT"
+}
