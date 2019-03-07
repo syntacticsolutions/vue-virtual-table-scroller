@@ -1,3 +1,3 @@
-import VueInfiniteScrollTable from 'InfiniteTableScroller.vue'
+import VueInfiniteScrollTable from './InfiniteTableScroller.vue'
 
 export default VueInfiniteScrollTable
