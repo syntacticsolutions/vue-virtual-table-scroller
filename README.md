@@ -24,10 +24,10 @@ export default {
     data: () => ({
         yourData: yourData,
         header: [
-            { key: 'firstColumnKey', label: 'First Column Label', sortable: true },
-            { key: 'secondColumnKey', label: 'Some Date Column', type: Date },
-            { key: 'thirdColumnKey', label: 'Some Image Column', type: 'image' }
-            { key: 'fourthColumnKey', label: 'fourthColumnKey' }
+            { key: 'firstColumnKey', label: 'First Column Label', sortable: true, width: 100 },
+            { key: 'secondColumnKey', label: 'Some Date Column', type: Date, width: 200 },
+            { key: 'thirdColumnKey', label: 'Some Image Column', type: 'image', width: 200 }
+            { key: 'fourthColumnKey', label: 'fourthColumnKey', width: 100 }
         ]
     }),
 }
@@ -38,7 +38,9 @@ export default {
 
 Each object in the header array will map to a value in the table.<br/>
 
-Key, and Label are required, but type and sortable are optional.<br/>
+Key, and Label are required, but type, width and sortable are optional.<br/>
+
+Width is optional, but recommended. It defines the width of your column so that it doesn't flex to fit the content.
 
 Type is used for sorting on date values, and rendering images.<br/>
 

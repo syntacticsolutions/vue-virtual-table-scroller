@@ -1,5 +1,5 @@
 <template>
-  <div class="infinite-table">
+  <div class="infinite-table" :style="{ width: tableWidth ? tableWidth + 'px' : 'auto', maxWidth: '100%'}">
     <div class="scroll-tricker" :style="{ height: totalHeight + 'px' }"></div>
     <section ref="table">
     </section>
@@ -17,7 +17,8 @@ export default {
     scroller: undefined,
     totalHeight: 0,
     sortKey: '',
-    sortOrder: 0
+    sortOrder: 0,
+    tableWidth: 0
   }),
   computed: {
     computedData () {
@@ -68,10 +69,16 @@ export default {
     createHeader () {
       let header = document.createElement('header')
       header.innerHTML = this.header.map(config => `
-        <div class="col" ${ config.sortable ? `onclick="scroller.sort('${config.key}')" style="cursor:pointer;"` : '' }>
+        <div class="col" ${ this.widthSetter(config) } ${ this.sortableAttributes(config) }>
           ${config.label + ' ' + (config.sortable ? this.sortIcon(config.key) : '') }
         </div>`).join('')
       return header
+    },
+    widthSetter ({ width }) {
+      return width ? `style="min-width: ${width}px;"` : ''
+    },
+    sortableAttributes ({ sortable, key }) {
+      return sortable ? `onclick="scroller.sort('${key}')" style="cursor:pointer;"` : '' 
     },
     transform (val, c) {
       if (c.transform && c.transform instanceof Function) {
@@ -108,6 +115,7 @@ export default {
       }
       this.$refs.table.innerHTML = "";
       this.$refs.table.appendChild(fragment);
+      this.tableWidth = this.tableWidth || [...this.headerEl.querySelectorAll('header .col')].reduce((accum, el) => accum + el.offsetWidth, 0) + this.header.length + 3
     }
   },
   mounted () {
@@ -177,7 +185,7 @@ export default {
 }
 
 /deep/ .col {
-  max-width: 300px;
+  max-width: 200px;
   padding-left: 5px;
   padding-right: 5px;
   white-space: nowrap;
