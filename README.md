@@ -9,7 +9,7 @@ header - JSON - required - The configuration for defining display order, sortabl
 ```vue
 <template>
     <infinite-table
-      :data="theData"
+      :data="yourData"
       rowHeight="48"
       :header="header">
       </infinite-table>
