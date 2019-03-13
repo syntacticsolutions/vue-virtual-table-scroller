@@ -1,15 +1,18 @@
 <template>
-  <div class="infinite-table" :style="{ width: tableWidth ? tableWidth + 'px' : 'auto', maxWidth: '100%'}">
-    <div class="scroll-tricker" :style="{ height: totalHeight + 'px' }"></div>
-    <section ref="table">
-    </section>
+  <div class="infinite-table-border">
+    <div class="infinite-table" :style="{ width: tableWidth ? tableWidth + 'px' : 'auto', maxWidth: '100%', height: tableHeight}">
+      <div class="scroll-tricker" :style="{ height: totalHeight + 'px' }"></div>
+      <section ref="table">
+      </section>
+      <p class="no-data" v-if="!data.length">No results found. Please refine your search.</p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
-  props: ['data', 'rowHeight', 'header'],
+  props: ['data', 'rowHeight', 'header', 'tableHeight'],
   data: () => ({
     firstIndex: 0,
     offsetHeight: 0,
@@ -20,6 +23,13 @@ export default {
     sortOrder: 0,
     tableWidth: 0
   }),
+  watch: {
+    data (val) {
+      setTimeout(() => {
+        this.renderChunk(this.fromPos, this.howMany)
+      }, 0)
+    }
+  },
   computed: {
     computedData () {
       let results = JSON.parse(JSON.stringify(this.data))
@@ -69,13 +79,13 @@ export default {
     createHeader () {
       let header = document.createElement('header')
       header.innerHTML = this.header.map(config => `
-        <div class="col" ${ this.widthSetter(config) } ${ this.sortableAttributes(config) }>
+        <div class="col" ${ this.styleSetter(config) } ${ this.sortableAttributes(config) }>
           ${config.label + ' ' + (config.sortable ? this.sortIcon(config.key) : '') }
         </div>`).join('')
       return header
     },
-    widthSetter ({ width }) {
-      return width ? `style="min-width: ${width}px;"` : ''
+    styleSetter ({ width, sortable  }) {
+      return `style="min-width: ${width ? width + 'px' : 'unset'};cursor:${sortable ? 'pointer' : 'normal'};"`
     },
     sortableAttributes ({ sortable, key }) {
       return sortable ? `onclick="scroller.sort('${key}')" style="cursor:pointer;"` : '' 
@@ -92,7 +102,11 @@ export default {
     generatorFn (val) {
       let row = document.createElement('div')
       row.classList.add('row')
-      row.innerHTML = this.header.map((config) => `<div class="col">${this.transform(val[config.key], config)}</div>`).join('')
+      row.innerHTML = this.header.map((config) => `
+        <div class="col">
+          <span>${this.transform(val[config.key], config)}
+          </span>
+        </div>`).join('')
       return row
     },
     renderChunk (fromPos, howMany) {
@@ -102,6 +116,8 @@ export default {
       fragment.appendChild(this.scroller)
       this.fromPos = fromPos
       this.howMany = howMany
+
+      this.totalHeight = this.rowHeight * this.data.length
 
       var finalItem = fromPos + howMany;
       if (finalItem > this.data.length) finalItem = this.data.length;
@@ -123,15 +139,14 @@ export default {
     this.scroller = this.createScroller()
     this.headerEl = this.createHeader()
     let lastRepaintY;
-    let { height } = this.$el.getBoundingClientRect()
+    let { height } = this.$el.childNodes[0].getBoundingClientRect()
     let screenItemsLen = Math.ceil(height / this.rowHeight);
-    this.totalHeight = this.rowHeight * this.data.length
     // Cache 4 times the number of items that fit in the container viewport
     let cachedItemsLen = screenItemsLen * 2;
     this.renderChunk(0, cachedItemsLen);
     let  maxBuffer = screenItemsLen * this.rowHeight;
 
-    this.$el.addEventListener('scroll', (ev) => {
+    this.$el.childNodes[0].addEventListener('scroll', (ev) => {
       let scrollTop = ev.target.scrollTop
       let first = (scrollTop - this.offsetHeight) / this.rowHeight
 
@@ -161,6 +176,7 @@ export default {
 
 /deep/ section .col {
   display: table-cell;
+  vertical-align: middle;
 }
 
 /deep/ header .col {
@@ -171,8 +187,12 @@ export default {
   border-bottom: 1px solid #999;
 }
 
+.infinite-table-border {
+  border: 1px solid #999;
+  border-radius: 4px;
+}
+
 .infinite-table {
-  height: 50vh;
   overflow: auto;
   border: 1px solid #999;
   border-radius: 4px;
@@ -191,6 +211,15 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.no-data {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
 }
 
 </style>
