@@ -41,7 +41,7 @@ export default {
         results = results.sort((a, b) => {
           let first = a[this.sortKey]
           let second = b[this.sortKey]
-          if (config.type && config.type === Date) {
+          if (config.type && config.type === 'date') {
             first = new Date(first)
             second = new Date(second)
           }

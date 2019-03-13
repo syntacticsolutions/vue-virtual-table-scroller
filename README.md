@@ -25,7 +25,7 @@ export default {
         yourData: yourData,
         header: [
             { key: 'firstColumnKey', label: 'First Column Label', sortable: true, width: 100 },
-            { key: 'secondColumnKey', label: 'Some Date Column', type: Date, width: 200 },
+            { key: 'secondColumnKey', label: 'Some Date Column', type: 'date', width: 200 },
             { key: 'thirdColumnKey', label: 'Some Image Column', type: 'image', width: 200 }
             { key: 'fourthColumnKey', label: 'fourthColumnKey', width: 100 }
         ]
